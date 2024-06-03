@@ -12,8 +12,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-var db = make(map[string]string)
-
 func setupRouter() *gin.Engine {
 	// Disable Console Color
 	// gin.DisableConsoleColor()
@@ -36,10 +34,11 @@ func setupRouter() *gin.Engine {
 			fmt.Println("GetOAuthToken() error", err)
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"code":    http.StatusInternalServerError,
-				"message": "GetOAuthToken() error",
+				"message": "GetOAuthToken() error" + err.Error(),
 			})
 			return
 		}
+		fmt.Println("token:", token)
 		c.JSON(http.StatusOK, gin.H{
 			"status": "ok",
 			"data":   token.AccessToken,
